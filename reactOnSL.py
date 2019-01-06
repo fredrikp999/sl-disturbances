@@ -26,11 +26,33 @@ def setupHue():
 def main():
 	# Get bridge state and full dictonary
 	b = setupHue()
-	kickOffLoop(b)
+
+	for n in range (1,100000):
+		kitchenMovement = checkKitchenMotion(b)
+		if kitchenMovement == True:
+			print ("Ok, time to start checking for disturbances on SL")
+			kickOffLoop(b)
+		# Wait some time before checking again
+		time.sleep(10)
 
 	# Get a dictionary with the light name as the key
 	#light_names = b.get_light_objects('name')
 	#print(light_names)
+
+def checkKitchenMotion(b):
+	# Sensor#30 is the motion sensor in the kitchen
+	# This is hardcoded for now. To me moved out of course, soon...
+	s = b.get_sensor(30)
+	#print(s)
+	#print("------")
+	if (s['state']['status']==1):
+		#Motion detected
+		print("Someone is in the kitchen!")
+		kitchenMovement = True
+	else:
+		print("All quiet in the kitchen")
+		kitchenMovement = False
+	return kitchenMovement
 
 def kickOffLoop(b):
 	# Get a dictionary with the light name as the key
