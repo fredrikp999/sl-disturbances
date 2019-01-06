@@ -1,0 +1,11 @@
+flask
+config
+requests
+phue
+datetime
+
+# Then we do not need to install the below with pip as they are already built in...
+# Getting weird error messages from pip when trying so including them here just to remember :)
+#json
+#sys
+#time

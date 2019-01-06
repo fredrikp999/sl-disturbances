@@ -98,6 +98,19 @@ def kickOffLoop(b):
 		print("+++++++++++++++")
 		# Sleep for 5 minutes
 		time.sleep(5*60)
+
+def printHueSensors(b):
+		# This is only a helper function, not really used in the app as such
+		# Loop through the 50 first sensors
+		# It is of course possible to see how many sensors there are somehow (tbd)
+		# This is as a start. Also note that there are empty positions between the existing sensors
+		for i in range(1,50):
+			s = b.get_sensor(i)
+			print("-------")
+			# Print out only in there is a sensor on this position
+			# If there is none, b.get_sensor will return an empty string
+			if s:
+				print (str(i)+": "+s['name'])
   
 if __name__== "__main__":
   main()
