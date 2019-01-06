@@ -23,6 +23,11 @@ class ParaList(Resource):
 	def get(self):
 		return PARAS
 
+class DisturbanceList(Resource):
+	def get(self):
+		dist = sl.getPathDisturbances("Älvsjö-Kista")
+		return jsonify(dist)
+
 # shows a single todo item and lets you delete a todo item
 class Para(Resource):
 	def get(self, para_id):
@@ -53,9 +58,9 @@ api = Api(app)
 ##
 ## Actually setup the Api resource routing here
 ##
-#api.add_resource(ParaList, '/api')
 api.add_resource(ParaList, '/api/paras')
 api.add_resource(Para, '/api/paras/<para_id>')
+api.add_resource(DisturbanceList, '/api/disturbances')
 
 
 """
