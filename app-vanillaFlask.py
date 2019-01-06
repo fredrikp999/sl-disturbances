@@ -4,7 +4,6 @@
 # Right now you need to approve connetion every time you rebuild the docker-file / restart the web-server
 
 from flask import Flask, jsonify
-from flask_restful import reqparse, abort, Api, Resource
 import random
 from phue import Bridge
 from datetime import datetime
@@ -14,53 +13,9 @@ import reactOnSL as rsl
 
 from quotes import funny_quotes
 
-
-
-
-# ParaList
-# shows a list of all parameters
-class ParaList(Resource):
-	def get(self):
-		return PARAS
-
-# shows a single todo item and lets you delete a todo item
-class Para(Resource):
-	def get(self, para_id):
-		if para_id in PARAS:
-			return PARAS[para_id]
-		else:
-			abort_if_para_doesnt_exist(para_id)
-
-	def put(self, para_id):
-		args = parser.parse_args()
-		para = args['para']
-		PARAS[para_id] = para
-		return para, 201
-
-def abort_if_para_doesnt_exist(para_id):
-	abort(404, message="Parameter {} doesn't exist".format(para_id))
-
-PARAS = {
-	"checkSL": {'value': 'False'},
-	"TravelingPath": {'value': 'Älvsjö-Kista'}
-}
-
-parser = reqparse.RequestParser()
-parser.add_argument('para')
 app = Flask(__name__)
-api = Api(app)
-
-##
-## Actually setup the Api resource routing here
-##
-#api.add_resource(ParaList, '/api')
-api.add_resource(ParaList, '/api/paras')
-api.add_resource(Para, '/api/paras/<para_id>')
 
 
-"""
-# This is the vanilla flask way of creating RESTful API
-# Skipping this and using flask_restful instead - see above
 @app.route("/api/disturbances")
 def serve_disturbances():
 	dist = sl.getPathDisturbances("Älvsjö-Kista")
@@ -87,7 +42,6 @@ def serve_funny_qotes():
 	no_of_quotes = len(quotes)
 	selected_quote = quotes[random.randint(0, no_of_quotes -1)]
 	return jsonify(selected_quote)
-"""
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", debug=True)
