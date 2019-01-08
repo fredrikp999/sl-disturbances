@@ -37,8 +37,10 @@ class Para(Resource):
 			abort_if_para_doesnt_exist(para_id)
 
 	def put(self, para_id):
+		#PARAS[para_id] = request.form['data']
+		#return {para_id: PARAS[para_id]}
 		args = parser.parse_args()
-		para = args['para']
+		para = {'value': args['data']}
 		PARAS[para_id] = para
 		return para, 201
 
@@ -51,16 +53,16 @@ PARAS = {
 }
 
 parser = reqparse.RequestParser()
-parser.add_argument('para')
+parser.add_argument('data')
 app = Flask(__name__)
 api = Api(app)
 
 ##
 ## Actually setup the Api resource routing here
 ##
-api.add_resource(ParaList, '/api/paras')
-api.add_resource(Para, '/api/paras/<para_id>')
-api.add_resource(DisturbanceList, '/api/disturbances')
+api.add_resource(ParaList, '/api/v1/paras')
+api.add_resource(Para, '/api/v1/paras/<string:para_id>')
+api.add_resource(DisturbanceList, '/api/v1/disturbances')
 
 
 """
